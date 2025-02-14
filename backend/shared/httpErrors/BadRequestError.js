@@ -1,18 +1,18 @@
 import { CustomError } from "../errors/customError.js";
 
-export default class NotFoundError extends CustomError {
-    STATUS_CODE = 404;
+export default class BadRequestError extends CustomError {
+    STATUS_CODE = 400;
     _code;
     _logging;
     _context;
 
     constructor(code, message, context, logging=false) {
-        super(message || 'Not found');
+        super(message || 'Bad Request');
         this._code = code || this.STATUS_CODE;
         this._logging = logging;
         this._context = context || {};
 
-        Object.setPrototypeOf(this, NotFoundError.prototype);
+        Object.setPrototypeOf(this, BadRequestError.prototype);
     }
 
     get errors() {

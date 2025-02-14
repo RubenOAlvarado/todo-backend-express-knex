@@ -57,3 +57,5 @@ export const production = {
     directory: process.env.KNEX_SEEDS_DIRECTORY
   }
 };
+
+export default { development, staging, production };
