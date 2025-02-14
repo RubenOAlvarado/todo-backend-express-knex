@@ -1,0 +1,19 @@
+{
+  "name": "todo-backend-express-knex",
+  "version": "1.0.0",
+  "description": "This is an implementation of Todo-Backend using Node and Express for the server, Knex for database migrations and query building, and some ES6+ features such as async/await. By default, this project configures Knex to save to PostgreSQL.",
+  "main": "index.js",
+  "scripts": {
+    "start:frontend": "cd frontend && npm run dev",
+    "start:backend": "cd backend && npm run dev",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "migrate": "cd backend && npm run migrate",
+    "seed": "cd backend && npm run seed"
+  },
+  "keywords": [],
+  "author": "Ruben O. Alvarado",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "9.1.2"
+  }
+}

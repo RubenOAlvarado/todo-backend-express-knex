@@ -1,0 +1,6 @@
+{
+  "watch": ["src", "knexfile.js", "migrations", "seeds"],
+  "ext": "js,json",
+  "ignore": ["tests", "logs"],
+  "exec": "node server.js"
+}
