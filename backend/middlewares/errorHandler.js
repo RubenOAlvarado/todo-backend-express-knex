@@ -1,18 +1,26 @@
 import { CustomError } from "../shared/errors/customError.js";
 
 export const errorHandler = (err, req, res, next) => {
-    if(err instanceof CustomError){
-        const { statusCode, errors, logging } = err;
-        if(logging){
+    if (err instanceof CustomError) {
+        if (err.logging) {
             console.error(JSON.stringify({
-                code: err.statusCode,
-                errors: err.errors,
+                statusCode: err.statusCode,
+                message: err.message,
+                context: err.context,
                 stack: err.stack
             }, null, 2));
         }
-        res.status(statusCode).send({ errors });
+
+        return res.status(err.statusCode).json({ errors: err.errors });
     }
 
-    console.error(JSON.stringify(err,null,2));
-    res.status(500).json({ message: 'Something went wrong' });
+    console.error(JSON.stringify({
+        statusCode: 500,
+        message: err.message || 'Internal Server Error',
+        stack: err.stack
+    }, null, 2));
+
+    return res.status(500).json({ 
+        errors: [{ message: 'Something went wrong' }] 
+    });
 };

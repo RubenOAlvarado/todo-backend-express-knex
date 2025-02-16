@@ -57,5 +57,13 @@ export const getTaskByUser = async (userId) => {
         .join("Tasks", "TaskAssignments.task_id", "Tasks.id")
         .select("Tasks.*", "TaskAssignments.assigned_at")
         .where("TaskAssignments.user_id", userId)
-        .andWhereNull("TaskAssignments.unassigned_at");
+        .andWhere("TaskAssignments.unassigned_at", null);
 };
+
+export const getStatusByName = async (name) => {
+    return db("TaskStatuses").select("*").where("name", name).first();
+}
+
+export const getStatusById = async (id) => {
+    return db("TaskStatuses").select("*").where("id", id).first();
+}

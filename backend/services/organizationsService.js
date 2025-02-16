@@ -13,7 +13,7 @@ export const getOrganizationsService = async () => {
     try {
         const organizations = await getOrganizations();
         if (organizations.length === 0) {
-            throw new NotFoundError('No organizations found');
+            throw new NotFoundError('No organizations found.');
         }
         return organizations;
     } catch (error) {
@@ -25,7 +25,7 @@ export const getOrganizationByIdService = async (id) => {
     try {
         const organization = await getOrganizationById(id);
         if (!organization) {
-            throw new NotFoundError('Organization not found');
+            throw new NotFoundError('Organization not found.', { id }, false);
         }
         return organization;
     } catch (error) {

@@ -5,10 +5,10 @@ import NotFoundError from "../shared/httpErrors/NotFoundError.js";
 
 export async function createProjectService(data) {
     try {
-        const organizationId = data.organizationId;
+        const organizationId = data.organization_id;
         const organization = await getOrganizationByIdService(organizationId);
         if (!organization) {
-            throw new BadRequestError('Organization not found');
+            throw new BadRequestError('Invalid organization.', { organizationId });
         }
         return await createProject(data);
     } catch (error) {
@@ -20,11 +20,11 @@ export async function getProjectsService(organizationId) {
     try {
         const validOrganization = await getOrganizationByIdService(organizationId);
         if (!validOrganization) {
-            throw new BadRequestError('Organization not found');
+            throw new BadRequestError('Invalid organization.', { organizationId });
         }
         const projects = await getProjects(organizationId);
         if (projects.length === 0) {
-            throw new NotFoundError('No projects found');
+            throw new NotFoundError('Organization does not have projects yet.', { organizationId });
         }
         return projects;
     } catch (error) {
@@ -36,7 +36,7 @@ export async function getProjectByIdService(id) {
     try {
         const project = await getProjectById(id);
         if (!project) {
-            throw new NotFoundError('Project not found');
+            throw new NotFoundError('Project not found.', { id });
         }
         return project;
     } catch (error) {
@@ -47,9 +47,6 @@ export async function getProjectByIdService(id) {
 export async function updateProjectService(id, data) {
     try {
         const validProject = await getProjectById(id);
-        if (!validProject) {
-            throw new BadRequestError('Project not found');
-        }
         const updatedProject = await updateProject(validProject.id, data);
         return updatedProject;
     } catch (error) {
@@ -60,10 +57,7 @@ export async function updateProjectService(id, data) {
 export async function deleteProjectService(id) {
     try {
         const validProject = await getProjectById(id);
-        if (!validProject) {
-            throw new BadRequestError('Project not found');
-        }
-        const deletedProject = await deleteProject(id);
+        const deletedProject = await deleteProject(validProject.id);
         return deletedProject;
     } catch (error) {
         throw error;

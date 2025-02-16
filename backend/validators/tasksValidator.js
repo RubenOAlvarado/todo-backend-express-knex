@@ -15,10 +15,6 @@ export const tasksValidator = [
         .isNumeric().withMessage("Status ID must be a number")
         .notEmpty().withMessage("Status ID is required")
         .trim(),
-    check("project_id")
-        .isNumeric().withMessage("Project ID must be a number")
-        .notEmpty().withMessage("Project ID is required")
-        .trim(),
     check("created_by")
         .isNumeric().withMessage("Created by must be a number")
         .notEmpty().withMessage("Created by is required")
@@ -39,10 +35,6 @@ export const updateTaskValidator = [
     check("status_id")
         .optional({ nullable: true, checkFalsy: true })
         .isNumeric().withMessage("Status ID must be a number")
-        .trim(),
-    check("project_id")
-        .optional({ nullable: true, checkFalsy: true })
-        .isNumeric().withMessage("Project ID must be a number")
         .trim(),
     check("created_by")
         .optional({ nullable: true, checkFalsy: true })

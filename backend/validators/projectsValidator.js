@@ -6,10 +6,6 @@ export const projectsValidator = [
         .isLength({ min: 3, max: 255 }).withMessage('Name must be between 3 and 255 characters')
         .notEmpty().withMessage('Name is required')
         .trim(),
-    check('organization_id')
-        .isNumeric().withMessage('Organization ID must be a number')
-        .notEmpty().withMessage('Organization ID is required')
-        .toInt(),
 ];
 
 export const updateProjectValidator = [
@@ -18,8 +14,4 @@ export const updateProjectValidator = [
         .isLength({ min: 3, max: 255 }).withMessage('Name must be between 3 and 255 characters')
         .optional()
         .trim(),
-    check('organization_id')
-        .isNumeric().withMessage('Organization ID must be a number')
-        .optional()
-        .toInt(),
 ];
