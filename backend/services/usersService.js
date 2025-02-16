@@ -17,8 +17,8 @@ export async function createUserService(user, organizationId, role) {
 export async function getUsersService(organizationId) {
     try {
         const users = await getUsers(organizationId);
-        if (!users) {
-            throw new NotFoundError('Users not found.', { organizationId });
+        if (users.length === 0) {
+            throw new NotFoundError('Organization does not have users registered.', { organizationId });
         }
         return users;
     } catch (error) {
@@ -40,7 +40,7 @@ export async function getUserByIdService(id) {
 
 export async function updateUserService(id, user) {
     try {
-        const validUser = await getUserById(id);
+        const validUser = await getUserByIdService(id);
         const updatedUser = await updateUser(validUser.id, user);
         return updatedUser;
     } catch (error) {
@@ -50,7 +50,7 @@ export async function updateUserService(id, user) {
 
 export async function deleteUserService(id) {
     try {
-        const validUser = await getUserById(id);
+        const validUser = await getUserByIdService(id);
         const user = await deleteUser(validUser.id);
         return user;
     } catch (error) {

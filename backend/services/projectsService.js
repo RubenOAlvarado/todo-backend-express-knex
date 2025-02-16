@@ -46,7 +46,7 @@ export async function getProjectByIdService(id) {
 
 export async function updateProjectService(id, data) {
     try {
-        const validProject = await getProjectById(id);
+        const validProject = await getProjectByIdService(id);
         const updatedProject = await updateProject(validProject.id, data);
         return updatedProject;
     } catch (error) {
@@ -56,7 +56,7 @@ export async function updateProjectService(id, data) {
 
 export async function deleteProjectService(id) {
     try {
-        const validProject = await getProjectById(id);
+        const validProject = await getProjectByIdService(id);
         const deletedProject = await deleteProject(validProject.id);
         return deletedProject;
     } catch (error) {

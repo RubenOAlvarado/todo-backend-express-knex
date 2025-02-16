@@ -6,11 +6,14 @@ export const createTask = async (task) => {
 };
 
 export const getTasks = async (projectId, statusId) => {
-    return db("Tasks")
+    const query = db("Tasks")
         .select("*")
         .where("project_id", projectId)
-        .andWhere("status_id", statusId)
         .andWhere("is_deleted", false);
+    if (statusId) {
+        query.andWhere("status_id", statusId)
+    }
+    return query;
 };
 
 export const getTaskById = async (id) => {
@@ -66,4 +69,8 @@ export const getStatusByName = async (name) => {
 
 export const getStatusById = async (id) => {
     return db("TaskStatuses").select("*").where("id", id).first();
+}
+
+export const getTaskAssignation = async (taskId) => {
+    return db("TaskAssignments").select("*").where("task_id", taskId).andWhere("unassigned_at", null).first();
 }

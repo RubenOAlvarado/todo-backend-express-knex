@@ -3,7 +3,7 @@ import { assignTaskService, changeTaskStatusService, createTaskService, deleteTa
 export const createTaskController = async (req, res) => {
     try {
         const projectId = req.params.id;
-        const task = await createTaskService({ ...req.body, project_id: projectId });
+        const task = await createTaskService({ ...req.body, projectId });
         res.status(201).json(task);
     } catch (error) {
         res.status(error.statusCode).json({ message: error.message, context: error.context });
@@ -50,7 +50,7 @@ export const deleteTaskController = async (req, res) => {
 
 export const changeTaskStatusController = async (req, res) => {
     try {
-        const updatedTask = await changeTaskStatusService(req.params.id, req.body.status_id);
+        const updatedTask = await changeTaskStatusService(req.params.id, req.body.statusId);
         res.status(200).json(updatedTask);
     } catch (error) {
         res.status(error.statusCode).json({ message: error.message, context: error.context });
@@ -59,7 +59,7 @@ export const changeTaskStatusController = async (req, res) => {
 
 export const assignTaskController = async (req, res) => {
     try {
-        const updatedTask = await assignTaskService(req.params.id, req.body.user_id);
+        const updatedTask = await assignTaskService(req.params.id, req.body.userId);
         res.status(200).json(updatedTask);
     } catch (error) {
         res.status(error.statusCode).json({ message: error.message, context: error.context });
