@@ -17,7 +17,14 @@ export const getTasks = async (projectId, statusId) => {
 };
 
 export const getTaskById = async (id) => {
-    return db("Tasks").select("*").where("id", id).first();
+  return db("Tasks")
+    .select("Tasks.*", db.raw(`CASE WHEN "TaskAssignments"."id" IS NOT NULL THEN TRUE ELSE FALSE END AS "is_assigned"`))
+    .leftJoin("TaskAssignments", function () {
+      this.on("Tasks.id", "=", "TaskAssignments.task_id")
+          .andOnNull("TaskAssignments.unassigned_at");
+    })
+    .where("Tasks.id", id)
+    .first();
 };
 
 export const updateTask = async (id, task) => {
@@ -69,8 +76,4 @@ export const getStatusByName = async (name) => {
 
 export const getStatusById = async (id) => {
     return db("TaskStatuses").select("*").where("id", id).first();
-}
-
-export const getTaskAssignation = async (taskId) => {
-    return db("TaskAssignments").select("*").where("task_id", taskId).andWhere("unassigned_at", null).first();
 }

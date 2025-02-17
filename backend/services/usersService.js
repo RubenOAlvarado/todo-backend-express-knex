@@ -8,7 +8,8 @@ export async function createUserService(user, organizationId, role) {
         if (userExists) {
             throw new BadRequestError('User already exists.', { email: user.email }, true);
         }
-        return createUser(user, organizationId, role);
+        const [user] = await createUser(user, organizationId, role);
+        return user;
     } catch (error) {
         throw error;
     }

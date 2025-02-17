@@ -3,7 +3,8 @@ import NotFoundError from "../shared/httpErrors/NotFoundError.js";
 
 export const createOrganizationService = async (data) => {
     try {
-        return await createOrganization(data);
+        const [org] = await createOrganization(data);
+        return org;
     } catch (error) {
         throw error;
     }

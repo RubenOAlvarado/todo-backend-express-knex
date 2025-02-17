@@ -6,7 +6,7 @@ import NotFoundError from "../shared/httpErrors/NotFoundError.js";
 export async function createProjectService(data) {
     try {
         const organizationId = data.organization_id;
-        const organization = await getOrganizationByIdService(organizationId);
+        const [organization] = await getOrganizationByIdService(organizationId);
         if (!organization) {
             throw new BadRequestError('Invalid organization.', { organizationId });
         }

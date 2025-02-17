@@ -4,8 +4,7 @@ import {
     createTask, 
     deleteTask, 
     getStatusById, 
-    getStatusByName, 
-    getTaskAssignation, 
+    getStatusByName,
     getTaskById, 
     getTaskByUser, 
     getTasks, 
@@ -17,15 +16,15 @@ import NotFoundError from "../shared/httpErrors/NotFoundError.js";
 import { getProjectByIdService } from "./projectsService.js";
 import { getUserByIdService } from "./usersService.js";
 
-export async function createTaskService({ projectId, title, description, statusId, createdBy }) {
+export async function createTaskService({ projectId, title, description, createdBy }) {
     try {
         const project = await getProjectByIdService(projectId);
         if (!project) {
-            throw new BadRequestError('Invalid project.', { projectId: taskData.project_id });
+            throw new BadRequestError('Invalid project.', { projectId: projectId });
         }
-        const task = await createTask({ 
+        const [task] = await createTask({ 
             project_id: projectId,
-            status_id: statusId, 
+            status_id: 1, 
             created_by:createdBy,
             title,
             description 
@@ -121,8 +120,7 @@ export async function assignTaskService(taskId, userId) {
         if (!user) {
             throw new BadRequestError('Invalid user.', { userId });
         }
-        const taskIsAssigned = await getTaskAssignation(taskId);
-        if(taskIsAssigned) {
+        if(validTask.is_assigned) {
             throw new BadRequestError('Task is already assigned.', { taskId });
         }
         const [assignment] = await assignTask(validTask.id, user.id);

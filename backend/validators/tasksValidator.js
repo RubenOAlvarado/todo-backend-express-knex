@@ -11,10 +11,6 @@ export const tasksValidator = [
         .isString().withMessage("Description must be a string")
         .isLength({ min: 3, max: 255 }).withMessage("Description must be between 3 and 255 characters")
         .trim(),
-    check("statusId")
-        .isNumeric().withMessage("Status ID must be a number")
-        .notEmpty().withMessage("Status ID is required")
-        .trim(),
     check("createdBy")
         .isNumeric().withMessage("Created by must be a number")
         .notEmpty().withMessage("Created by is required")
