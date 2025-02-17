@@ -16,7 +16,7 @@ const UserList = ({ users }) => {
         <li key={user.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
           <div className="flex justify-between items-center">
             <div>
-              <Link to={`/users/${user.id}`} className="text-green-500 hover:text-green-600">
+              <Link to={`/users/${user.id}`} className="text-lg font-semibold text-blue-500 hover:text-blue-600">
                 {user.email}
               </Link>
             </div>

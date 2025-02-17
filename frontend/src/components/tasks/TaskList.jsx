@@ -16,7 +16,7 @@ const TaskList = ({ tasks }) => {
         <li key={task.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
           <div className="flex justify-between items-center">
             <div>
-              <Link to={`/tasks/${task.id}`} className="text-blue-500 hover:text-blue-600">
+              <Link to={`/tasks/${task.id}`} className="text-lg font-semibold text-blue-500 hover:text-blue-600">
                 {task.title}
               </Link>
             </div>

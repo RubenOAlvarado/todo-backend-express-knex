@@ -8,7 +8,7 @@ const OrganizationList = ({ organizations, onDelete }) => {
         <li key={org.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
           <div className="flex justify-between items-center">
             <div>
-              <Link to={`/organizations/${org.id}`} className="text-lg font-semibold text-gray-800">
+              <Link to={`/organizations/${org.id}`} className="text-lg font-semibold text-blue-500 hover:text-blue-600">
                 {org.name}
               </Link>
             </div>

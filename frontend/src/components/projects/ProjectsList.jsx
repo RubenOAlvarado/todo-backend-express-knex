@@ -16,7 +16,9 @@ const ProjectList = ({ projects }) => {
         <li key={project.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
           <div className="flex justify-between items-center">
             <div>
-              <Link to={`/projects/${project.id}`} className="text-blue-500 hover:text-blue-600">{project.name}</Link>
+              <Link to={`/projects/${project.id}`} className="text-lg font-semibold text-blue-500 hover:text-blue-600">
+                {project.name}
+              </Link>
             </div>
             <button 
               onClick={() => handleDeleteProject(project.id)}
