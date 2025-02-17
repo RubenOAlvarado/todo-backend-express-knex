@@ -14,7 +14,7 @@ export const getOrganizationById = async (id) => {
 
 export const createOrganization = async (organization) => {
     return db("Organizations")
-        .insert({ ...organization, created_at: db.fn.now() }) // Asegurar que created_at se incluya
+        .insert({ ...organization, created_at: db.fn.now() })
         .returning("*");
 };
 

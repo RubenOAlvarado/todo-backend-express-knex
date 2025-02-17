@@ -2,7 +2,7 @@ import db from '../connection.js';
 
 export const createProject = async (project) => {
     return db("Projects")
-        .insert({ ...project, created_at: db.fn.now() }) // Asegurar que created_at se incluya
+        .insert({ ...project, created_at: db.fn.now() })
         .returning("*");
 };
 

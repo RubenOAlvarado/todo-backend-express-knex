@@ -2,13 +2,13 @@ import { createUser, getUserByEmail, getUsers, getUserById, updateUser, deleteUs
 import BadRequestError from "../shared/httpErrors/BadRequestError.js";
 import NotFoundError from "../shared/httpErrors/NotFoundError.js";
 
-export async function createUserService(user, organizationId, role) {
+export async function createUserService(organizationId, data) {
     try {
-        const userExists = await getUserByEmail(user.email);
+        const userExists = await getUserByEmail(data.email);
         if (userExists) {
-            throw new BadRequestError('User already exists.', { email: user.email }, true);
+            throw new BadRequestError('User already exists.', { email: data.email }, true);
         }
-        const [user] = await createUser(user, organizationId, role);
+        const user = await createUser(organizationId, data);
         return user;
     } catch (error) {
         throw error;
@@ -42,7 +42,7 @@ export async function getUserByIdService(id) {
 export async function updateUserService(id, user) {
     try {
         const validUser = await getUserByIdService(id);
-        const updatedUser = await updateUser(validUser.id, user);
+        const [updatedUser] = await updateUser(validUser.id, user);
         return updatedUser;
     } catch (error) {
         throw error;
@@ -52,7 +52,7 @@ export async function updateUserService(id, user) {
 export async function deleteUserService(id) {
     try {
         const validUser = await getUserByIdService(id);
-        const user = await deleteUser(validUser.id);
+        const [user] = await deleteUser(validUser.id);
         return user;
     } catch (error) {
         throw error;

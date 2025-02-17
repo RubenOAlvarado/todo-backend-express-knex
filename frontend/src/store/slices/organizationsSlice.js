@@ -29,20 +29,32 @@ const organizationsSlice = createSlice({
       state.status = 'idle';
       state.error = null;
     },
+    removeProjectFromOrganization(state, action) {
+      state.projects = state.projects.filter(project => project.id !== action.payload);
+    },
+    removeUserFromOrganization(state, action) {
+      state.users = state.users.filter(user => user.id !== action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
       // Fetch Organizations
       .addCase(fetchOrganizations.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
       })
       .addCase(fetchOrganizations.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.organizations = action.payload;
       })
       .addCase(fetchOrganizations.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        if(Array.isArray(action.payload)) {
+          state.status = 'succeeded';
+          state.organizations = action.payload;
+        } else {
+          state.status = 'failed';
+          state.error = action.error.message;
+        }
       })
 
       // Fetch Single Organization
@@ -93,7 +105,7 @@ const organizationsSlice = createSlice({
       })
       .addCase(deleteOrganization.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.organizations = state.organizations.filter(org => org.id !== action.payload.id);
+        state.organizations = state.organizations.filter(org => org.id !== action.payload);
       })
       .addCase(deleteOrganization.rejected, (state, action) => {
         state.status = 'failed';
@@ -116,19 +128,26 @@ const organizationsSlice = createSlice({
       // Fetch Organization Projects
       .addCase(getOrganizationProjects.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
       })
       .addCase(getOrganizationProjects.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.projects = action.payload;
       })
       .addCase(getOrganizationProjects.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        if(Array.isArray(action.payload)) {
+          state.status = 'succeeded';
+          state.projects = action.payload;
+        } else {
+          state.status = 'failed';
+          state.error = action.error.message;
+        }
       })
 
       // Create Organization User
       .addCase(createOrganizationUser.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
       })
       .addCase(createOrganizationUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
@@ -142,17 +161,30 @@ const organizationsSlice = createSlice({
       // Fetch Organization Users
       .addCase(getOrganizationUsers.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
       })
       .addCase(getOrganizationUsers.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.users = action.payload;
       })
       .addCase(getOrganizationUsers.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        if(Array.isArray(action.payload)) {
+          state.status = 'succeeded';
+          state.users = action.payload;
+        } else {
+          state.status = 'failed';
+          state.error = action.error.message;
+        }
       });
   },
 });
 
-export const { clearOrganization, clearProjects, clearUsers, resetState } = organizationsSlice.actions;
+export const { 
+  clearOrganization, 
+  clearProjects, 
+  clearUsers, 
+  resetState, 
+  removeProjectFromOrganization,
+  removeUserFromOrganization, 
+} = organizationsSlice.actions;
 export default organizationsSlice.reducer;

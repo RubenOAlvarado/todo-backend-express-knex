@@ -76,7 +76,7 @@ export async function getTaskByIdService(id) {
 export async function updateTaskService(id, { projectId, title, description, statusId, createdBy }) {
     try {
         const validTask = await getTaskByIdService(id);
-        const updatedTask = await updateTask(validTask.id, {
+        const [updatedTask] = await updateTask(validTask.id, {
             project_id: projectId,
             status_id: statusId,
             created_by: createdBy,
@@ -92,7 +92,7 @@ export async function updateTaskService(id, { projectId, title, description, sta
 export async function deleteTaskService(id) {
     try {
         const validTask = await getTaskByIdService(id);
-        const deletedTask = await deleteTask(validTask.id);
+        const [deletedTask] = await deleteTask(validTask.id);
         return deletedTask;
     } catch (error) {
         throw error;
@@ -106,7 +106,7 @@ export async function changeTaskStatusService(id, statusId) {
             throw new BadRequestError('Invalid status.', { statusId });
         }
         const validTask = await getTaskByIdService(id);
-        const updatedTask = await changeTaskStatus(validTask.id, statusId);
+        const [updatedTask] = await changeTaskStatus(validTask.id, statusId);
         return updatedTask;
     } catch (error) {
         throw error;

@@ -86,8 +86,13 @@ const projectsSlice = createSlice({
         state.tasks = action.payload;
       })
       .addCase(fetchProjectTasks.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        if(Array.isArray(action.payload)) {
+          state.status = 'succeeded';
+          state.tasks = action.payload;
+        } else {
+          state.status = 'failed';
+          state.error = action.error.message;
+        }
       });
   },
 });

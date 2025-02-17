@@ -52,7 +52,11 @@ const OrganizationDetailPage = () => {
 
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Projects</h2>
-        <ProjectList projects={projects} />
+          {projects?.length === 0 ? (
+            <p className="text-gray-600">No projects found</p>
+          ) : (
+            <ProjectList projects={projects} />
+          )}
       </div>
 
       <div className="mb-8">
@@ -72,7 +76,11 @@ const OrganizationDetailPage = () => {
 
       <div>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Users</h2>
-        <UserList users={users} />
+          {users?.length === 0 ? (
+            <p className="text-gray-600">No users found</p>
+          ) : (
+            <UserList users={users} />
+          )}
       </div>
     </div>
   );

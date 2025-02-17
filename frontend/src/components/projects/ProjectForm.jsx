@@ -11,7 +11,7 @@ const ProjectForm = ({ organizationId }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createOrganizationProject({organizationId, data: { name }}));
+        dispatch(createOrganizationProject({organizationId, name }));
         setName('');
     };
 

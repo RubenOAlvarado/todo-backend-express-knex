@@ -37,7 +37,7 @@ export const getOrganizationByIdService = async (id) => {
 export const updateOrganizationService = async (id, data) => {
     try {
         const validOrganization = await getOrganizationByIdService(id);
-        const updatedOrganization = await updateOrganization(validOrganization.id, data);
+        const [updatedOrganization] = await updateOrganization(validOrganization.id, data);
         return updatedOrganization;
     } catch (error) {
         throw error;
@@ -47,7 +47,7 @@ export const updateOrganizationService = async (id, data) => {
 export const deleteOrganizationService = async (id) => {
     try {
         const validOrganization = await getOrganizationByIdService(id);
-        const deletedOrganization = await deleteOrganization(validOrganization.id);
+        const [deletedOrganization] = await deleteOrganization(validOrganization.id);
         return deletedOrganization;
     } catch (error) {
         throw error;

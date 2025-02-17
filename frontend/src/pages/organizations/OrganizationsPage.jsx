@@ -48,7 +48,11 @@ const OrganizationsPage = () => {
       </div>
       <div>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Organization List</h2>
-        <OrganizationList organizations={organizations} onDelete={handleDeleteOrganization} />
+        {organizations.length === 0 ? (
+          <p className="text-center text-gray-600">No organizations found.</p>
+        ) : (
+          <OrganizationList organizations={organizations} onDelete={handleDeleteOrganization} />
+        )}
       </div>
     </div>
   );

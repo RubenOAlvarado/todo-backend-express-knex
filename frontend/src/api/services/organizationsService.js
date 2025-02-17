@@ -22,6 +22,7 @@ export const organizationsService = {
         return response.data;
     },
     async createOrganizationProject(organizationId, data) {
+        console.log({ organizationId, data });
         const response = await apiClient.post(`/organizations/${organizationId}/projects`, data);
         return response.data;
     },

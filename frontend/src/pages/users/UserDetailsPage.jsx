@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchUser, fetchUserTasks } from "../../store/thunks/usersThunks";
 import { clearUser, clearUserTasks } from "../../store/slices/usersSlice";
 import { useEffect, useState } from "react";
+import UserTasks from "../../components/users/UserTasks";
 
 const UserDetailsPage = () => {
     const dispatch = useDispatch();
@@ -31,19 +32,7 @@ const UserDetailsPage = () => {
                     {showuserTasks ? 'Hide Tasks' : 'Show Tasks'}
                 </button>
                 {showuserTasks && (
-                    <ul className="space-y-2 mt-4">
-                        {tasks.map((task) => (
-                            <li key={task.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                                <div className="flex justify-between items-center">
-                                    <div>
-                                        <Link to={`/tasks/${task.id}`} className="text-blue-500 hover:text-blue-600">
-                                            {task.title}
-                                        </Link>
-                                    </div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                    <UserTasks tasks={tasks} />
                 )}
             </div>
         </div>

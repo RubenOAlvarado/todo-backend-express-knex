@@ -1,11 +1,11 @@
 import db from '../connection.js';
 
-export const createUser = async (user, organizationId, role) => {
+export const createUser = async (organizationId, { email, password, role }) => {
     return db.transaction(async (trx) => {
-        const [ userId ] = await trx('Users').insert(user).returning('id');
-        await trx('UserOrganizations').insert({ user_id: userId, organization_id: organizationId, role });
+        const [ user ] = await trx('Users').insert({ email, password }).returning('*');
+        await trx('UserOrganizations').insert({ user_id: user.id, organization_id: organizationId, role });
 
-        return { userId, organizationId };
+        return user;
     });
 };
 

@@ -67,14 +67,20 @@ const usersSlice = createSlice({
       // Fetch User Tasks
       .addCase(fetchUserTasks.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
       })
       .addCase(fetchUserTasks.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.tasks = action.payload;
       })
       .addCase(fetchUserTasks.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        if(Array.isArray(action.payload)) {
+          state.status = 'succeeded';
+          state.tasks = action.payload;
+        } else {
+          state.status = 'failed';
+          state.error = action.error.message;
+        }
       });
   },
 });

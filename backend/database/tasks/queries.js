@@ -2,7 +2,10 @@ import db from '../connection.js';
 
 
 export const createTask = async (task) => {
-    return db("Tasks").insert(task).returning("*");
+    return db("Tasks").insert({
+        ...task,
+        created_at: db.fn.now(),
+    }).returning("*");
 };
 
 export const getTasks = async (projectId, statusId) => {

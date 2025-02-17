@@ -6,11 +6,12 @@ import NotFoundError from "../shared/httpErrors/NotFoundError.js";
 export async function createProjectService(data) {
     try {
         const organizationId = data.organization_id;
-        const [organization] = await getOrganizationByIdService(organizationId);
+        const organization = await getOrganizationByIdService(organizationId);
         if (!organization) {
             throw new BadRequestError('Invalid organization.', { organizationId });
         }
-        return await createProject(data);
+        const [project] = await createProject(data);
+        return project;
     } catch (error) {
         throw error;
     }
@@ -47,7 +48,7 @@ export async function getProjectByIdService(id) {
 export async function updateProjectService(id, data) {
     try {
         const validProject = await getProjectByIdService(id);
-        const updatedProject = await updateProject(validProject.id, data);
+        const [updatedProject] = await updateProject(validProject.id, data);
         return updatedProject;
     } catch (error) {
         throw error;
@@ -57,7 +58,7 @@ export async function updateProjectService(id, data) {
 export async function deleteProjectService(id) {
     try {
         const validProject = await getProjectByIdService(id);
-        const deletedProject = await deleteProject(validProject.id);
+        const [deletedProject] = await deleteProject(validProject.id);
         return deletedProject;
     } catch (error) {
         throw error;

@@ -4,16 +4,32 @@ import { organizationsService } from '../../api/services/organizationsService';
 // Fetch all organizations
 export const fetchOrganizations = createAsyncThunk(
   'organizations/fetchOrganizations',
-  async () => {
-    return organizationsService.getAll();
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = organizationsService.getAll();
+      return response;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return rejectWithValue([]);
+      }
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
 // Fetch a single organization by ID
 export const fetchOrganization = createAsyncThunk(
   'organizations/fetchOrganization',
-  async (id) => {
-    return organizationsService.get(id);
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = organizationsService.get(id);
+      return response;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return rejectWithValue(null);
+      }
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
@@ -37,7 +53,8 @@ export const updateOrganization = createAsyncThunk(
 export const deleteOrganization = createAsyncThunk(
   'organizations/deleteOrganization',
   async (id) => {
-    return organizationsService.delete(id);
+    await organizationsService.delete(id);
+    return id;
   }
 );
 
@@ -45,6 +62,7 @@ export const deleteOrganization = createAsyncThunk(
 export const createOrganizationProject = createAsyncThunk(
   'organizations/createOrganizationProject',
   async ({ organizationId, name }) => {
+    console.log({ organizationId, name });
     return organizationsService.createOrganizationProject(organizationId, { name });
   }
 );
@@ -52,23 +70,39 @@ export const createOrganizationProject = createAsyncThunk(
 // Fetch projects for an organization
 export const getOrganizationProjects = createAsyncThunk(
   'organizations/getOrganizationProjects',
-  async (organizationId) => {
-    return organizationsService.getOrganizationProjects(organizationId);
+  async (organizationId, { rejectWithValue }) => {
+    try {
+      const response = await organizationsService.getOrganizationProjects(organizationId);
+      return response;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return rejectWithValue([]);
+      }
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
 // Add a user to an organization
 export const createOrganizationUser = createAsyncThunk(
   'organizations/createOrganizationUser',
-  async ({ organizationId, data }) => {
-    return organizationsService.createOrganizationUser(organizationId, data);
+  async ({ organizationId, email, password, role }) => {
+    return organizationsService.createOrganizationUser(organizationId, { email, password, role });
   }
 );
 
 // Fetch users in an organization
 export const getOrganizationUsers = createAsyncThunk(
   'organizations/getOrganizationUsers',
-  async (organizationId) => {
-    return organizationsService.getOrganizationUsers(organizationId);
+  async (organizationId, { rejectWithValue }) => {
+    try {
+      const response = await organizationsService.getOrganizationUsers(organizationId);
+      return response;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return rejectWithValue([]);
+      }
+      return rejectWithValue(error.response.data);
+    }
   }
 );

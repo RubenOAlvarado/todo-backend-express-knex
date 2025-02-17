@@ -4,8 +4,7 @@ export const createUserController = async (req, res) => {
     try {
         const user = req.body;
         const organizationId = req.params.id;
-        const role = req.body.role;
-        const newUser = await createUserService(user, organizationId, role);
+        const newUser = await createUserService(organizationId, user);
         res.status(201).json(newUser);
     } catch (error) {
         res.status(error.statusCode).json({ message: error.message, context: error.context });

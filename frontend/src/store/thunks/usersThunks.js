@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { usersService } from '../../api/services/usersService';
+import { removeUserFromOrganization } from '../slices/organizationsSlice';
 
 // Fetch a user by ID
 export const fetchUser = createAsyncThunk(
@@ -20,15 +21,25 @@ export const updateUser = createAsyncThunk(
 // Delete a user
 export const deleteUser = createAsyncThunk(
   'users/deleteUser',
-  async (userId) => {
-    return usersService.deleteUser(userId);
+  async (userId, { dispatch }) => {
+    await usersService.deleteUser(userId);
+    dispatch(removeUserFromOrganization(userId));
+    return userId;
   }
 );
 
 // Fetch tasks assigned to a user
 export const fetchUserTasks = createAsyncThunk(
   'users/fetchUserTasks',
-  async (userId) => {
-    return usersService.getUserTasks(userId);
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = usersService.getUserTasks(userId);
+      return response;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return rejectWithValue([]);
+      }
+      return rejectWithValue(error.response.data);
+    }
   }
 );

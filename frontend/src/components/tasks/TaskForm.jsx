@@ -14,7 +14,7 @@ const TaskForm = ({ projectId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProjectTask({ projectId, data: { title, description, createdBy }}))
+    dispatch(createProjectTask({ projectId, title, description, createdBy }))
       .unwrap()
       .then(() => {
         setSuccessMessage('Task created successfully!');

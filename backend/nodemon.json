@@ -1,6 +1,19 @@
 {
-  "watch": ["src", "knexfile.js", "migrations", "seeds"],
-  "ext": "js,json",
-  "ignore": ["tests", "logs"],
+  "watch": [
+    "controllers", 
+    "models", 
+    "routes", 
+    "server.js", 
+    "database", 
+    "middlewares",
+    "migrations",
+    "seeds",
+    "services",
+    "utils",
+    "validators",
+    "shared",
+    "knexfile.js"
+  ],
+  "ext": "js, json",
   "exec": "node server.js"
 }

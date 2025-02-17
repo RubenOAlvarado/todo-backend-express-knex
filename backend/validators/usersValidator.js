@@ -8,6 +8,9 @@ export const usersValidator = [
     check('password')
         .isLength({ min: 6, max: 255 }).withMessage('Password must be between 6 and 255 characters')
         .notEmpty().withMessage('Password is required'),
+    check('role')
+        .isIn(['user', 'admin']).withMessage('Role must be either user or admin')
+        .notEmpty().withMessage('Role is required'),
 ];
 
 export const updateUserValidator = [
@@ -17,6 +20,9 @@ export const updateUserValidator = [
         .optional(),
     check('password')
         .isLength({ min: 6, max: 255 }).withMessage('Password must be between 6 and 255 characters')
+        .optional(),
+    check('role')
+        .isIn(['user', 'admin']).withMessage('Role must be either user or admin')
         .optional(),
 ];
 
