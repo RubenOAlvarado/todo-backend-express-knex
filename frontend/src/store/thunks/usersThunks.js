@@ -33,7 +33,7 @@ export const fetchUserTasks = createAsyncThunk(
   'users/fetchUserTasks',
   async (userId, { rejectWithValue }) => {
     try {
-      const response = usersService.getUserTasks(userId);
+      const response = await usersService.getUserTasks(userId);
       return response;
     } catch (error) {
       if (error.response && error.response.status === 404) {

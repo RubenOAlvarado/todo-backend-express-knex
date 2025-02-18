@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createProjectTask } from "../../store/thunks/projectsThunks";
 import { clearTask } from "../../store/slices/tasksSlice";
 
-const TaskForm = ({ projectId }) => {
+const TaskForm = ({ projectId, onClose }) => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -21,9 +21,11 @@ const TaskForm = ({ projectId }) => {
         setTitle('');
         setDescription('');
         setCreatedBy(1);
+        onClose?.();
       })
       .catch(() => {
         setSuccessMessage('');
+        onClose?.();
       });
   };
 
@@ -68,14 +70,23 @@ const TaskForm = ({ projectId }) => {
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
-        >
-          {status === 'loading' ? 'Creating...' : 'Create Task'}
-        </button>
+        <div className="flex justify-end gap-3 pt-2">
+          <button
+            type="submit"
+            disabled={status === 'loading'}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          >
+            {status === 'loading' ? 'Creating...' : 'Create Task'}
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors"
+            disabled={status === 'loading'}
+          >
+            Cancel
+          </button>
+        </div>
 
         {error && <p className="text-red-500 text-sm mt-2">Error: {error}</p>}
         {successMessage && <p className="text-green-500 text-sm mt-2">{successMessage}</p>}
@@ -85,6 +96,7 @@ const TaskForm = ({ projectId }) => {
 
 TaskForm.propTypes = {
     projectId: PropTypes.number.isRequired,
+    onClose: PropTypes.func,
 };
 
 export default TaskForm;

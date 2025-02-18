@@ -133,11 +133,19 @@ const TaskDetailsPage = () => {
                             <span className="font-medium">Created by:</span> {task?.created_by}
                         </p>
                         <p className="text-sm text-gray-600">
-                            <span className="font-medium">Created at:</span> {new Date(task?.created_at).toLocaleString()}
+                            <span className="font-medium">Created at:</span> {new Date(task?.created_at).toLocaleString(undefined, {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                                })}
                         </p>
-                        {task?.updated_by && (
+                        {task?.updated_at && (
                             <p className="text-sm text-gray-600">
-                                <span className="font-medium">Last updated by:</span> {task?.updated_by}
+                                <span className="font-medium">Last update:</span> {new Date(task?.updated_at).toLocaleString(undefined, {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                    })}
                             </p>
                         )}
                     </div>

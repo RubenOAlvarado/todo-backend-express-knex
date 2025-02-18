@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { deleteUser } from '../../store/thunks/usersThunks';
 import { useDispatch } from 'react-redux';
+import { BiTrash } from 'react-icons/bi';
 
 const UserList = ({ users }) => {
   const dispatch = useDispatch();
@@ -22,9 +23,10 @@ const UserList = ({ users }) => {
             </div>
             <button 
               onClick={() => handleDeleteUser(user.id)}
-              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors"
+              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors flex items-center gap-2 text-sm"
             >
                 Delete
+                <BiTrash size={16} />
             </button>
           </div>
         </li>

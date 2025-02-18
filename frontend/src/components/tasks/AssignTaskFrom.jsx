@@ -1,14 +1,32 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearTask } from "../../store/slices/tasksSlice";
 
 const AssignTaskForm = ({ taskId, onAssign }) => {
+    const dispatch = useDispatch();
     const [userId, setUserId] = useState('');
+    const { status, error } = useSelector((state) => state.tasks);
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onAssign(taskId, userId);
-        setUserId('');
+        dispatch(onAssign(taskId, userId))
+            .unwrap()
+            .then(() => {
+                setSuccessMessage('Task assigned successfully!');
+                setUserId('');
+            })
+            .catch(() => {
+                setSuccessMessage('');
+            });
     };
+
+    useEffect(() => {
+        return () => {
+          dispatch(clearTask());
+        };
+      }, [dispatch]);
 
     return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -27,10 +45,13 @@ const AssignTaskForm = ({ taskId, onAssign }) => {
       </div>
       <button
         type="submit"
+        disabled={status === 'loading'}
         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
       >
-        Assign Task
+        {status === 'loading' ? 'Creating...' : 'Assign Task'}
       </button>
+      {error && <p className="text-red-500 text-sm mt-2">Error: {error}</p>}
+      {successMessage && <p className="text-green-500 text-sm mt-2">{successMessage}</p>}
     </form>
   );
 };

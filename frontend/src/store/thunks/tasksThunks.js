@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { tasksService } from '../../api/services/tasksService';
+import { removeTaskFromProject } from '../slices/projectsSlice';
 
 // Fetch a task by ID
 export const fetchTask = createAsyncThunk(
@@ -20,8 +21,10 @@ export const updateTask = createAsyncThunk(
 // Delete a task
 export const deleteTask = createAsyncThunk(
   'tasks/deleteTask',
-  async (taskId) => {
-    return tasksService.deleteTask(taskId);
+  async (taskId, { dispatch }) => {
+    await tasksService.deleteTask(taskId);
+    dispatch(removeTaskFromProject(taskId));
+    return taskId;
   }
 );
 

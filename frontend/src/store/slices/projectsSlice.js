@@ -22,6 +22,9 @@ const projectsSlice = createSlice({
       state.status = 'idle';
       state.error = null;
     },
+    removeTaskFromProject(state, action) {
+      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -97,5 +100,5 @@ const projectsSlice = createSlice({
   },
 });
 
-export const { clearProject, clearTasks, resetState } = projectsSlice.actions;
+export const { clearProject, clearTasks, resetState, removeTaskFromProject } = projectsSlice.actions;
 export default projectsSlice.reducer;

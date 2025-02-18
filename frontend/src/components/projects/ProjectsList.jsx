@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteProject } from '../../store/thunks/projectsThunks';
+import { BiTrash } from 'react-icons/bi';
 
 const ProjectList = ({ projects }) => {
   const dispatch = useDispatch();
@@ -22,9 +23,10 @@ const ProjectList = ({ projects }) => {
             </div>
             <button 
               onClick={() => handleDeleteProject(project.id)}
-              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors"
+              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors flex items-center gap-2 text-sm"
             >
                 Delete
+                <BiTrash size={16} />
             </button>
           </div>
         </li>

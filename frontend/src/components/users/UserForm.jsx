@@ -4,7 +4,7 @@ import { createOrganizationUser } from "../../store/thunks/organizationsThunks";
 import PropTypes from "prop-types";
 import { clearUser } from "../../store/slices/usersSlice";
 
-const UserForm = ({ organizationId }) => {
+const UserForm = ({ organizationId, onClose }) => {
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -57,13 +57,23 @@ const UserForm = ({ organizationId }) => {
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
             </select>
-            <button 
-                type="submit" 
-                disabled={status === 'loading'}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
-            >
-                {status === 'loading' ? 'Creating...' : 'Create user'}
-            </button>
+            <div className="flex justify-end gap-3 pt-2">
+                <button 
+                    type="submit" 
+                    disabled={status === 'loading'}
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+                >
+                    {status === 'loading' ? 'Creating...' : 'Create user'}
+                </button>
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors"
+                    disabled={status === 'loading'}
+                >
+                    Cancel
+                </button>
+            </div>
             {error && <p className="text-center text-red-500">Error: {error}</p>}
         </form>
     );
@@ -71,6 +81,7 @@ const UserForm = ({ organizationId }) => {
 
 UserForm.propTypes = {
     organizationId: PropTypes.string.isRequired,
+    onClose: PropTypes.func,
 };
 
 export default UserForm;

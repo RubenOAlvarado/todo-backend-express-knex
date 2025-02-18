@@ -62,7 +62,6 @@ export const deleteOrganization = createAsyncThunk(
 export const createOrganizationProject = createAsyncThunk(
   'organizations/createOrganizationProject',
   async ({ organizationId, name }) => {
-    console.log({ organizationId, name });
     return organizationsService.createOrganizationProject(organizationId, { name });
   }
 );
