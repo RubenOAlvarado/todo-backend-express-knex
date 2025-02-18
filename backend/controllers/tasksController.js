@@ -68,7 +68,7 @@ export const assignTaskController = async (req, res) => {
 
 export const unassignTaskController = async (req, res) => {
     try {
-        const updatedTask = await unassignTaskService(req.params.id, req.params.userId);
+        const updatedTask = await unassignTaskService(req.params.id);
         res.status(200).json(updatedTask);
     } catch (error) {
         res.status(error.statusCode).json({ message: error.message, context: error.context });

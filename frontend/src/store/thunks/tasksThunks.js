@@ -47,7 +47,7 @@ export const assignTask = createAsyncThunk(
 // Unassign a task from a user
 export const unassignTask = createAsyncThunk(
   'tasks/unassignTask',
-  async ({ taskId, userId }) => {
-    return tasksService.unassignTaks(taskId, userId);
+  async (taskId) => {
+    return tasksService.unassignTaks(taskId);
   }
 );

@@ -21,8 +21,8 @@ export const tasksService = {
         const response = await apiClient.post(`/tasks/${taskId}/assign`, { userId });
         return response.data;
     },
-    async unassignTaks(taskId, userId) {
-        const response = await apiClient.delete(`/tasks/${taskId}/assign/${userId}`);
+    async unassignTaks(taskId) {
+        const response = await apiClient.delete(`/tasks/${taskId}/assign`);
         return response.data;
     }
 };

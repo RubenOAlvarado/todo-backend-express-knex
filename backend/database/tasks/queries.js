@@ -10,7 +10,11 @@ export const createTask = async (task) => {
 
 export const getTasks = async (projectId, statusId) => {
     const query = db("Tasks")
-        .select("*")
+        .select("Tasks.*", db.raw(`CASE WHEN "TaskAssignments"."id" IS NOT NULL THEN TRUE ELSE FALSE END AS "is_assigned"`))
+        .leftJoin("TaskAssignments", function () {
+            this.on("Tasks.id", "=", "TaskAssignments.task_id")
+                .andOnNull("TaskAssignments.unassigned_at");
+            })
         .where("project_id", projectId)
         .andWhere("is_deleted", false);
     if (statusId) {
@@ -57,11 +61,10 @@ export const assignTask = async (taskId, userId) => {
         .returning("*");
 };
 
-export const unassignTask = async (taskId, userId) => {
+export const unassignTask = async (taskId) => {
     return db("TaskAssignments")
-        .update({ unassigned_at: db.fn.now() })
+        .update({ unassigned_at: db.fn.now(), user_id: null })
         .where("task_id", taskId)
-        .andWhere("user_id", userId)
         .returning("*");
 };
 

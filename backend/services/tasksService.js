@@ -141,18 +141,13 @@ async function validateTaskAsignability(taskId) {
     return task;
 }
 
-export async function unassignTaskService(taskId, userId) {
+export async function unassignTaskService(taskId) {
     try {
         const validTask = await validateTaskAsignability(taskId);
-        const user = await getUserByIdService(userId);
-        if (!user) {
-            throw new BadRequestError('Invalid user.', { userId });
-        }
-        const taskIsAssigned = await getTaskAssignation(taskId);
-        if(!taskIsAssigned) {
+        if(!validTask.is_assigned) {
             throw new BadRequestError('Task needs to be assigned first.', { taskId });
         }
-        const [assignment] = await unassignTask(validTask.id, user.id);
+        const [assignment] = await unassignTask(validTask.id);
         return assignment;
     } catch (error) {
         throw error;

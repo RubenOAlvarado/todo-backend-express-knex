@@ -1,61 +1,65 @@
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { deleteTask } from '../../store/thunks/tasksThunks';
-import { BiEdit, BiTrash } from 'react-icons/bi';
+import { assignTask, deleteTask, unassignTask } from '../../store/thunks/tasksThunks';
+import { useState } from 'react';
+import AssignTaskForm from './AssignTaskFrom';
+import TaskItem from './TaskItem';
 
 const TaskList = ({ tasks }) => {
   const dispatch = useDispatch();
-  console.log(tasks[0]);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const handleDeleteTask = async (taskId) => {
     dispatch(deleteTask(taskId));
   };
-  
+
+  const handleUnassignTask = async (taskId) => {
+    dispatch(unassignTask(taskId));
+  };
+
+  const handleAssignTask = async (userId) => {
+    if (selectedTask) {
+      await dispatch(assignTask({ taskId: selectedTask.id, userId }));
+      setSelectedTask(null);
+    }
+  };
+
+  const handleAssignClick = (task) => {
+    setSelectedTask(task);
+  };
+
+  if (!tasks?.length) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        No tasks available
+      </div>
+    );
+  }
+
   return (
-    <ul className="space-y-4">
-      {tasks.map(({ id, title, status_id }) => (
-        <li 
-          key={id} 
-          className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex justify-between items-center"
-        >
-          <Link 
-            to={`/tasks/${id}`} 
-            className="text-lg font-semibold text-blue-500 hover:text-blue-600 flex-1"
-          >
-            {title}
-          </Link>
-          <div className="flex gap-3">
-            {status_id === 1 ? (
-              <button
-                className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2 text-sm"
-              >
-                Assign
-              </button>
-            ) : (
-              <button
-                className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2 text-sm"
-              >
-                Unassign
-              </button>
-            )}
-            <button
-              className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2 text-sm"
-            >
-              Edit
-              <BiEdit size={16} />
-            </button>
-            <button 
-              onClick={() => handleDeleteTask(id)}
-              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors flex items-center gap-2 text-sm"
-            >
-              Delete
-              <BiTrash size={16} />
-            </button>
-          </div>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul className="space-y-4">
+        {tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            onAssign={handleAssignClick}
+            onUnassign={handleUnassignTask}
+            onDelete={handleDeleteTask}
+          />
+        ))}
+      </ul>
+      
+      {selectedTask && (
+        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+          <AssignTaskForm
+            task={selectedTask}
+            onAssign={handleAssignTask}
+            onCancel={() => setSelectedTask(null)}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

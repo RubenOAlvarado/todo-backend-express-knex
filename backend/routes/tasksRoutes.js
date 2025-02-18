@@ -46,9 +46,8 @@ router.post(
 );
 
 router.delete(
-    '/:id/assign/:userId',
+    '/:id/assign',
     paramIdValidator,
-    userIdValidator,
     validationMiddleware,
     unassignTaskController
 );
