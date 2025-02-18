@@ -15,7 +15,7 @@ const AssignTaskForm = ({ task, onAssign, onCancel }) => {
             await onAssign(userId);
             setSuccessMessage('Task assigned successfully!');
             setUserId('');
-            onCancel();
+            onCancel?.();
         } catch (err) {
             console.error(err);
             setSuccessMessage('');

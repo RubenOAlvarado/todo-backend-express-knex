@@ -89,9 +89,8 @@ const tasksSlice = createSlice({
       .addCase(unassignTask.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(unassignTask.fulfilled, (state, action) => {
+      .addCase(unassignTask.fulfilled, (state) => {
         state.status = 'succeeded';
-        state.task = action.payload;
       })
       .addCase(unassignTask.rejected, (state, action) => {
         state.status = 'failed';

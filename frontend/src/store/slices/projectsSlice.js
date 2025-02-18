@@ -24,6 +24,13 @@ const projectsSlice = createSlice({
     },
     removeTaskFromProject(state, action) {
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+    },
+    updateTaskInProject(state, action) {
+      const updatedTask = action.payload;
+      const index = state.tasks.findIndex((task) => task.id === updatedTask.id);
+      if (index !== -1) {
+        state.tasks[index] = action.payload;
+      }
     }
   },
   extraReducers: (builder) => {
@@ -100,5 +107,11 @@ const projectsSlice = createSlice({
   },
 });
 
-export const { clearProject, clearTasks, resetState, removeTaskFromProject } = projectsSlice.actions;
+export const { 
+  clearProject, 
+  clearTasks, 
+  resetState, 
+  removeTaskFromProject, 
+  updateTaskInProject
+} = projectsSlice.actions;
 export default projectsSlice.reducer;

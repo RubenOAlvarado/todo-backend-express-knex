@@ -63,9 +63,8 @@ export const assignTask = async (taskId, userId) => {
 
 export const unassignTask = async (taskId) => {
     return db("TaskAssignments")
-        .update({ unassigned_at: db.fn.now(), user_id: null })
         .where("task_id", taskId)
-        .returning("*");
+        .del();
 };
 
 export const getTaskByUser = async (userId) => {

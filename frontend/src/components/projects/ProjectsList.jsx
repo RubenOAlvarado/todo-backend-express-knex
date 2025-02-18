@@ -11,6 +11,14 @@ const ProjectList = ({ projects }) => {
     dispatch(deleteProject(projectId));
   };
 
+  if(!projects?.length) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        No projects available
+      </div>
+    );
+  }
+
   return (
     <ul className="space-y-2">
       {projects.map((project) => (

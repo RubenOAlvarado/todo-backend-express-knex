@@ -11,6 +11,14 @@ const UserList = ({ users }) => {
     dispatch(deleteUser(userId));
   };
 
+  if(!users?.length) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        No users available
+      </div>
+    );
+  }
+
   return (
     <ul className="space-y-2">
       {users.map((user) => (

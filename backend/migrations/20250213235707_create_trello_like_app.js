@@ -53,8 +53,6 @@ export function up(knex) {
       table.increments("id").primary();
       table.integer("task_id").unsigned().references("id").inTable("Tasks").onDelete("CASCADE");
       table.integer("user_id").unsigned().references("id").inTable("Users").onDelete("CASCADE");
-      table.timestamp("assigned_at").defaultTo(knex.fn.now());
-      table.timestamp("unassigned_at").nullable();
     });
 }
 

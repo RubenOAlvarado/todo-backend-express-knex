@@ -56,11 +56,7 @@ const ProjectDetailPage = () => {
           ) : (
             <div className="mt-4 p-4 rounded-lg shadow-md">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Tasks</h2>
-              {tasks.length === 0 ? (
-                <p className="text-center text-gray-600">No tasks found.</p>
-              ): (
-                <TaskList tasks={tasks} />
-              )}
+              <TaskList projectId={id} tasks={tasks} />
             </div>
           )}
       </div>

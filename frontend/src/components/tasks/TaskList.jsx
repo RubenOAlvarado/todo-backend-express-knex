@@ -4,13 +4,15 @@ import { assignTask, deleteTask, unassignTask } from '../../store/thunks/tasksTh
 import { useState } from 'react';
 import AssignTaskForm from './AssignTaskFrom';
 import TaskItem from './TaskItem';
+import { fetchProjectTasks } from '../../store/thunks/projectsThunks';
 
-const TaskList = ({ tasks }) => {
+const TaskList = ({ projectId, tasks }) => {
   const dispatch = useDispatch();
   const [selectedTask, setSelectedTask] = useState(null);
 
   const handleDeleteTask = async (taskId) => {
     dispatch(deleteTask(taskId));
+    dispatch(fetchProjectTasks(projectId));
   };
 
   const handleUnassignTask = async (taskId) => {
@@ -19,7 +21,7 @@ const TaskList = ({ tasks }) => {
 
   const handleAssignTask = async (userId) => {
     if (selectedTask) {
-      await dispatch(assignTask({ taskId: selectedTask.id, userId }));
+      dispatch(assignTask({ taskId: selectedTask.id, userId }));
       setSelectedTask(null);
     }
   };
@@ -64,6 +66,7 @@ const TaskList = ({ tasks }) => {
 };
 
 TaskList.propTypes = {
+  projectId: PropTypes.number.isRequired,
   tasks: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

@@ -24,7 +24,7 @@ const ProjectForm = ({ organizationId, onClose }) => {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
             <input
                 type="text"
                 id="name"

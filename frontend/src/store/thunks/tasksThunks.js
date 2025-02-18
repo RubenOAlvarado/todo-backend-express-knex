@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { tasksService } from '../../api/services/tasksService';
-import { removeTaskFromProject } from '../slices/projectsSlice';
+import { removeTaskFromProject, updateTaskInProject } from '../slices/projectsSlice';
 
 // Fetch a task by ID
 export const fetchTask = createAsyncThunk(
@@ -39,15 +39,29 @@ export const changeTaskStatus = createAsyncThunk(
 // Assign a task to a user
 export const assignTask = createAsyncThunk(
   'tasks/assignTask',
-  async ({ taskId, userId }) => {
-    return tasksService.assignTask(taskId, userId);
+  async ({ taskId, userId }, { dispatch, rejectWithValue }) => {
+    try {
+      await tasksService.assignTask(taskId, userId);
+      const updatedTask = await tasksService.getTask(taskId);
+      dispatch(updateTaskInProject(updatedTask));
+      return updatedTask;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 
 // Unassign a task from a user
 export const unassignTask = createAsyncThunk(
   'tasks/unassignTask',
-  async (taskId) => {
-    return tasksService.unassignTaks(taskId);
+  async (taskId, { dispatch, rejectWithValue }) => {
+    try {
+      await tasksService.unassignTask(taskId);
+      const updatedTask = await tasksService.getTask(taskId);
+      dispatch(updateTaskInProject(updatedTask));
+      return updatedTask;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );

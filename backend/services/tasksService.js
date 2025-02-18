@@ -147,8 +147,7 @@ export async function unassignTaskService(taskId) {
         if(!validTask.is_assigned) {
             throw new BadRequestError('Task needs to be assigned first.', { taskId });
         }
-        const [assignment] = await unassignTask(validTask.id);
-        return assignment;
+        await unassignTask(validTask.id);
     } catch (error) {
         throw error;
     }

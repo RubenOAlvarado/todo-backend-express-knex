@@ -72,19 +72,11 @@ const OrganizationDetailPage = () => {
         <>
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Projects</h2>
-            {projects?.length === 0 ? (
-              <p className="text-gray-600">No projects found</p>
-            ) : (
-              <ProjectList projects={projects} />
-            )}
+            <ProjectList projects={projects} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Users</h2>
-            {users?.length === 0 ? (
-              <p className="text-gray-600">No users found</p>
-            ) : (
-              <UserList users={users} />
-            )}
+            <UserList users={users} />
           </div>
         </>
       )}
