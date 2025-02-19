@@ -7,7 +7,8 @@ import { fetchOrganization, getOrganizationProjects, getOrganizationUsers } from
 import { clearOrganization, clearProjects, clearUsers } from '../../store/slices/organizationsSlice';
 import ProjectForm from '../../components/projects/ProjectForm';
 import UserForm from '../../components/users/UserForm';
-import OrganizationHeader from '../../components/OrganizationHeader';
+import { BiBuildings, BiLoaderCircle, BiPlusCircle } from 'react-icons/bi';
+import Header from '../../components/Header';
 
 const OrganizationDetailPage = () => {
   const dispatch = useDispatch();
@@ -45,41 +46,103 @@ const OrganizationDetailPage = () => {
   };
 
 
-  if (status === 'loading') return <p className="text-center text-gray-600">Loading...</p>;
-  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
+  if (status === 'loading') {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="flex flex-col items-center space-y-4">
+            <BiLoaderCircle className="w-12 h-12 text-blue-500 animate-spin" />
+            <p className="text-gray-600 font-medium">Loading organizations...</p>
+          </div>
+        </div>
+      );
+    }
+  
+    if (error) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+          <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
+            <div className="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+              <BiBuildings className="w-8 h-8 text-red-500" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Error</h2>
+            <p className="text-gray-600">{error}</p>
+          </div>
+        </div>
+      );
+    }
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="mb-8">
-        <OrganizationHeader 
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <Header 
           title={organization?.name}
-          onAddProject={handleAddProject}
-          onAddUser={handleAddUser}
-          hideButtons={showProjectForm || showUserForm}
+          type={'organizations'}
         />
+
+        <div className="mt-8">
+          {showProjectForm ? (
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden transition-all duration-200">
+              <div className="px-6 py-5 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Create new project for {organization?.name}
+                </h2>
+              </div>
+              <div className="p-6">
+                <ProjectForm organizationId={id} onClose={handleOnClose} />
+              </div>
+            </div>
+          ) : showUserForm ? (
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden transition-all duration-200">
+              <div className="px-6 py-5 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Create new user for {organization?.name}
+                </h2>
+              </div>
+              <div className="p-6">
+                <UserForm organizationId={id} onClose={handleOnClose} />
+              </div>
+            </div>
+          ) : (
+            <div className="grid gap-8 md:grid-cols-2">
+              <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div className="px-6 py-5 border-b border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-semibold text-gray-900">Projects</h2>
+                    <button
+                      onClick={handleAddProject}
+                      className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+                    >
+                      <BiPlusCircle className="w-4 h-4 mr-1.5" />
+                      Add Project
+                    </button>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <ProjectList projects={projects} />
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div className="px-6 py-5 border-b border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-semibold text-gray-900">Users</h2>
+                    <button
+                      onClick={handleAddUser}
+                      className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+                    >
+                      <BiPlusCircle className="w-4 h-4 mr-1.5" />
+                      Add User
+                    </button>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <UserList users={users} />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      {showProjectForm ? (
-        <div className="mt-4 p-4 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">Create new project for {organization?.name}</h2>
-            <ProjectForm organizationId={id} onClose={handleOnClose} />
-          </div>
-        ) : showUserForm ? (
-          <div className="mt-4 p-4 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">Create new user for {organization?.name}</h2>
-            <UserForm organizationId={id} onClose={handleOnClose} />
-          </div>
-      ) : (
-        <>
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Projects</h2>
-            <ProjectList projects={projects} />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Users</h2>
-            <UserList users={users} />
-          </div>
-        </>
-      )}
     </div>
   );
 };

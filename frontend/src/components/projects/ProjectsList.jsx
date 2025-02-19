@@ -11,30 +11,40 @@ const ProjectList = ({ projects }) => {
     dispatch(deleteProject(projectId));
   };
 
-  if(!projects?.length) {
+  if (!projects?.length) {
     return (
       <div className="text-center py-8 text-gray-500">
-        No projects available
+        <p className="text-lg">No projects available</p>
+        <p className="text-sm text-gray-400">Create a new project to get started.</p>
       </div>
     );
   }
 
   return (
-    <ul className="space-y-2">
+    <ul className="space-y-4">
       {projects.map((project) => (
-        <li key={project.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+        <li
+          key={project.id}
+          className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+        >
           <div className="flex justify-between items-center">
             <div>
-              <Link to={`/projects/${project.id}`} className="text-lg font-semibold text-blue-500 hover:text-blue-600">
+              <Link
+                to={`/projects/${project.id}`}
+                className="text-xl font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+              >
                 {project.name}
               </Link>
+              <p className="text-sm text-gray-500 mt-1">
+                Created on: {new Date(project.created_at).toLocaleDateString()}
+              </p>
             </div>
-            <button 
+            <button
               onClick={() => handleDeleteProject(project.id)}
-              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors flex items-center gap-2 text-sm"
+              className="bg-red-50 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors flex items-center gap-2 text-sm"
             >
-                Delete
-                <BiTrash size={16} />
+              <BiTrash size={16} />
+              Delete
             </button>
           </div>
         </li>

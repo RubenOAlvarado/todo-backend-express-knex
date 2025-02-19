@@ -4,40 +4,44 @@ import { Link } from "react-router-dom";
 
 const TaskItem = ({ task, onAssign, onUnassign, onDelete }) => {
     const canAssignTask = !task?.is_assigned && task?.status_id === 1;
-    
+
     return (
-        <li className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow flex justify-between items-center">
-            <Link 
-                to={`/tasks/${task.id}`} 
-                className="text-lg font-semibold text-blue-500 hover:text-blue-600 flex-1"
-            >
-                {task.title}
-            </Link>
-            <div className="flex gap-3">
-                {canAssignTask ? (
-                    <button
-                        onClick={() => onAssign(task)}
-                        className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2 text-sm"
+        <li className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+            <div className="flex justify-between items-center">
+                <div className="flex-1">
+                    <Link
+                        to={`/tasks/${task.id}`}
+                        className="text-xl font-semibold text-blue-600 hover:text-blue-700 transition-colors"
                     >
-                        Assign
-                        <BiUserCheck size={16} />
-                    </button>
-                ) : (
+                        {task.title}
+                    </Link>
+                </div>
+                <div className="flex gap-3">
+                    {canAssignTask ? (
+                        <button
+                            onClick={() => onAssign(task)}
+                            className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors flex items-center gap-2 text-sm"
+                        >
+                            <BiUserCheck size={16} />
+                            Assign
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => onUnassign(task.id)}
+                            className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors flex items-center gap-2 text-sm"
+                        >
+                            <BiUserMinus size={16} />
+                            Unassign
+                        </button>
+                    )}
                     <button
-                        onClick={() => onUnassign(task.id)}
-                        className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2 text-sm"
+                        onClick={() => onDelete(task.id)}
+                        className="bg-red-50 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors flex items-center gap-2 text-sm"
                     >
-                        Unassign
-                        <BiUserMinus size={16} />
+                        <BiTrash size={16} />
+                        Delete
                     </button>
-                )}
-                <button 
-                    onClick={() => onDelete(task.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors flex items-center gap-2 text-sm"
-                >
-                    Delete
-                    <BiTrash size={16} />
-                </button>
+                </div>
             </div>
         </li>
     );

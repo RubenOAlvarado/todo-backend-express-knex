@@ -1,31 +1,37 @@
-import PropTypes from "prop-types";
-import { BiPlusCircle } from "react-icons/bi";
+import { BiFolder, BiGroup, BiTask, BiUser } from "react-icons/bi";
+import PropTypes from 'prop-types';
 
-const Header = ({ title, buttonLabel, onAddFunction, hideButton }) => {
+const Header = ({title, type }) => {
+
+    const iconMap = {
+        projects: BiFolder,
+        organizations: BiGroup,
+        users: BiUser,
+        tasks: BiTask
+    };
+
+    const Icon = iconMap[type] || BiGroup;
 
     return (
-        <nav className="p-4 bg-gray-100/80 rounded-lg shadow-inner mb-8">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
-                {!hideButton && (
-                    <button
-                        onClick={onAddFunction}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2"
-                    >
-                        {buttonLabel}
-                        <BiPlusCircle size={18} />
-                    </button>
-                )}
+        <div className="bg-white rounded-xl shadow-sm">
+            <div className="px-6 py-5">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+                    <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            
+                            <Icon className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+                    </div>
+                </div>
             </div>
-        </nav>
+        </div>
     );
 };
 
 Header.propTypes = {
     title: PropTypes.string.isRequired,
-    buttonLabel: PropTypes.string.isRequired,
-    onAddFunction: PropTypes.func.isRequired,
-    hideButton: PropTypes.bool,
+    type: PropTypes.string.isRequired
 };
 
 export default Header;

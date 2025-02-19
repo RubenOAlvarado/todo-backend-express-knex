@@ -4,26 +4,32 @@ import { Link } from 'react-router-dom';
 
 const OrganizationList = ({ organizations, onDelete }) => {
   return (
-    <ul className="space-y-2">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {organizations.map((org) => (
-        <li key={org.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div className="flex justify-between items-center">
-            <div>
-              <Link to={`/organizations/${org.id}`} className="text-lg font-semibold text-blue-500 hover:text-blue-600">
+        <div 
+          key={org.id} 
+          className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden"
+        >
+          <div className="p-6">
+            <div className="flex items-center justify-between">
+              <Link 
+                to={`/organizations/${org.id}`}
+                className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200"
+              >
                 {org.name}
               </Link>
+              <button
+                onClick={() => onDelete(org.id)}
+                className="p-2 text-gray-400 hover:text-red-500 transition-colors duration-200"
+                title="Delete organization"
+              >
+                <BiTrash className="w-5 h-5" />
+              </button>
             </div>
-            <button
-              onClick={() => onDelete(org.id)}
-              className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors flex items-center gap-2 text-sm"
-            >
-              Delete
-              <BiTrash size={16} />
-            </button>
           </div>
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 

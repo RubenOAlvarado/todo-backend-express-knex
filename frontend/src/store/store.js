@@ -3,6 +3,7 @@ import organizationsReducer from './slices/organizationsSlice.js';
 import projectsReducer from './slices/projectsSlice.js';
 import tasksReducer from './slices/tasksSlice.js';
 import usersReducer from './slices/usersSlice.js';
+import commentsReducer from './slices/commentsSlice.js';
 
 
 export const store = configureStore({
@@ -11,5 +12,6 @@ export const store = configureStore({
         projects: projectsReducer,
         tasks: tasksReducer,
         users: usersReducer,
+        comments: commentsReducer,
     },
 });

@@ -6,12 +6,15 @@ const UserTasks = ({ tasks }) => {
         return <p className="text-center text-gray-600">User does not have tasks assigned.</p>;
     }
     return (
-        <ul className="space-y-2 mt-4">
+        <ul className="space-y-4">
             {tasks.map((task) => (
-                <li key={task.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <li key={task.id} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                     <div className="flex justify-between items-center">
-                        <div>
-                            <Link to={`/tasks/${task.id}`} className="text-blue-500 hover:text-blue-600">
+                        <div className="flex-1"> 
+                            <Link 
+                                to={`/tasks/${task.id}`} 
+                                className="text-xl font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                            >
                                 {task.title}
                             </Link>
                         </div>
