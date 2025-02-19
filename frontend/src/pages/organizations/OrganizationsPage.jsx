@@ -89,7 +89,7 @@ const OrganizationsPage = () => {
                   </button>
                 </div>
               ) : (
-                <div className="grid gap-8 md:grid-cols-2">
+                <div className="grid gap-8">
                   <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                     <div className="px-6 py-5 border-b border-gray-200">
                       <div className="flex items-center justify-between">
@@ -102,7 +102,7 @@ const OrganizationsPage = () => {
                         </button>
                       </div>
                     </div>
-                    <div className="p-6">
+                    <div className="p-12">
                       <OrganizationList
                         organizations={organizations}
                         onDelete={handleDeleteOrganization}

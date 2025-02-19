@@ -3,7 +3,6 @@ import { paramIdValidator } from '../validators/paramIdValidator.js';
 import { validationMiddleware } from '../middlewares/validationMiddleware.js';
 import { assignTaskController, changeTaskStatusController, deleteTaskController, getTaskByIdController, unassignTaskController, updateTaskController } from '../controllers/tasksController.js';
 import { assignTaskValidator, changeTaskStatusValidator, updateTaskValidator } from '../validators/tasksValidator.js';
-import { userIdValidator } from '../validators/usersValidator.js';
 
 const router = express.Router();
 

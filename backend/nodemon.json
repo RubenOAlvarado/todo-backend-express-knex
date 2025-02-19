@@ -12,7 +12,8 @@
     "utils",
     "validators",
     "shared",
-    "knexfile.js"
+    "knexfile.js",
+    "app.js"
   ],
   "ext": "js, json",
   "exec": "node server.js"
