@@ -12,6 +12,10 @@ const commentsSlice = createSlice({
     clearComments(state) {
       state.comments = [];
     },
+    updateCommentsAfterDelete(state, action) {
+      const commentId = action.payload;
+      state.comments = state.comments.filter((comment) => comment.id !== commentId);
+    }
   },
   extraReducers: (builder) => {
     builder

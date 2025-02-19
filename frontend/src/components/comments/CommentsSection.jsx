@@ -1,19 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { createComment, deleteComment, updateComment } from "../../store/thunks/commentsThunks";
+import { createComment, deleteComment, fetchCommentsByTaskId, updateComment } from "../../store/thunks/commentsThunks";
 import { BiLoaderCircle, BiMessageRounded, BiSend } from "react-icons/bi";
 import CommentItem from "./CommentItem";
+import { clearComments } from "../../store/slices/commentsSlice";
 
 const CommentsSection = ({ taskId }) => {
   const dispatch = useDispatch();
   const { comments, status, error } = useSelector((state) => state.comments);
-  const [newComment, setNewComment] = useState('');
+  const [content, setContent] = useState('');
 
-  const handleAddComment = (newComment) => {
-    if (newComment.trim()) {
-      dispatch(createComment({ taskId, commentData: { content: newComment } }));
-      setNewComment('');
+  useEffect(() => {
+    dispatch(fetchCommentsByTaskId(taskId));
+    return () => dispatch(clearComments());
+  }, [dispatch, taskId]);
+
+  const handleAddComment = () => {
+    if (content.trim()) {
+      dispatch(createComment({taskId, content }));
+      setContent('');
     }
   };
 
@@ -88,15 +94,15 @@ const CommentsSection = ({ taskId }) => {
       <div className="mt-6 border-t pt-4">
         <div className="relative">
           <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             onKeyUp={handleKeyPress}
             placeholder="Add your comment..."
             className="w-full min-h-[120px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none transition-all duration-200"
           />
           <button 
             onClick={handleAddComment}
-            disabled={!newComment.trim()}
+            disabled={status === 'loading'}
             className="absolute bottom-4 right-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
           >
             <BiSend className="w-4 h-4 mr-2" />
